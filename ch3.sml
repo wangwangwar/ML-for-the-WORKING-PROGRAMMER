@@ -59,3 +59,33 @@ nrevTest [[1, 2], [3, 4]];
 *   [4, 3, 2, 1]
 *
 *)
+
+
+(* 3.6 *)
+
+fun concat [] = []
+  | concat (l::ls) = l @ concat ls;
+
+concat [["When", "shall"], ["we", "three"], ["meet", "again"]];
+
+fun zip(x::xs, y::ys) = (x, y) :: zip(xs, ys)
+  | zip _ = [];
+
+zip ([1, 2, 3], [2, 3, 4]);
+zip ([1, 2, 3], []);
+
+fun conspair ((x, y), (xs, ys)) = (x::xs, y::ys);
+fun unzip [] = ([], [])
+  | unzip (pair::pairs) = conspair (pair, unzip pairs);
+unzip [(1, 2), (3, 4), (5, 6)];
+
+fun unzip2 [] = ([], [])
+  | unzip2 ((x, y)::pairs) =
+      let val (xs, ys) = unzip pairs
+      in (x::xs, y::ys) end;
+
+unzip2 [(1, 2), (3, 4), (5, 6)];
+
+fun rev_unzip ([], xs, ys) = (xs, ys)
+  | rev_unzip ((x, y)::pairs, xs, ys) =
+      rev_unzip (pairs, x::xs, y::ys);
