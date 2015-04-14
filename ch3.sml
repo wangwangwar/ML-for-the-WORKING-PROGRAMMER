@@ -149,3 +149,21 @@ fun allChange (coins, coinvals, 0) = [coins]
 
 allChange ([], [5, 2], 16);
 allChange ([], gb_coins, 16);
+
+
+(* test 3.11 *)
+
+local 
+val romanList = ["M",   "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
+val valueList = [1000,  900,  500, 400,  100, 90,   50,  40,   10,  9,    5,   4,    1]
+fun numberToRoman2 (0, roman, _, _) = [roman]
+  | numberToRoman2 (_, roman, [], _) = []
+  | numberToRoman2 (_, roman, _, []) = []
+  | numberToRoman2 (amount, roman, r::romanList, v::valueList) =
+      if amount < v then numberToRoman2 (amount, roman, romanList, valueList)
+      else numberToRoman2 (amount-v, roman ^ r, r::romanList, v::valueList)
+in
+  fun numberToRoman amount = numberToRoman2 (amount, "", romanList, valueList)
+end;
+
+numberToRoman 1984;
