@@ -299,3 +299,29 @@ in
 end;
 
 numberToRoman 1984;
+
+
+(* Test 3.13 *)
+
+fun allChange2 (coins, coinvals, 0) = [coins]
+  | allChange2 (coins, [], amount) = []
+  | allChange2 (coins, c::coinvals, amount) =
+      if amount < 0 then []
+      else allChange2 (c::coins, coinvals, amount-c) @ 
+           allChange2 (coins, coinvals, amount);
+
+allChange2 ([], [10, 10, 5, 2, 1], 16);
+allChange2 ([], [5, 5, 2, 1], 4);
+
+(* Test 3.14 *)
+
+fun allChange3 (coins, all, coinvals, 0) = coins::all
+  | allChange3 (coins, all, [], amount) = all
+  | allChange3 (coins, all, c::coinvals, amount) =
+      if amount < 0 then all
+      else allChange3 (c::coins, 
+                      allChange3 (coins, all, coinvals, amount),
+                      c::coinvals, 
+                      amount-c);
+
+allChange3 ([], [], [10, 5, 2, 1], 10);
