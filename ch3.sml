@@ -325,3 +325,41 @@ fun allChange3 (coins, all, coinvals, 0) = coins::all
                       amount-c);
 
 allChange3 ([], [], [10, 5, 2, 1], 10);
+
+
+(* 3.8 *)
+
+fun bincarry (0, ps) = ps
+  | bincarry (1, []) = [1]
+  | bincarry (1, p::ps) = (1-p)::bincarry(p, ps);
+
+bincarry (0, [1, 1]);
+
+bincarry (1, [1, 1]);
+(* (1-1)::bincarry(1, [1])
+* 0::((1-1)::bincarry(1::[]))
+* 0::(0::(1::[]))
+* [0, 0, 1]
+*)
+
+bincarry (1, []);
+
+bincarry (1, [1, 0]);
+(* (1-1)::bincarry(1, [0])
+* 0::(1::bincarry(0, []))
+* 0::(1::[])
+* [0, 1]
+*)
+
+fun binsum (c, [], qs) = bincarry (c, qs)
+  | binsum (c, ps, []) = bincarry (c, ps)
+  | binsum (c, p::ps, q::qs) =
+      ((c+p+q) mod 2) :: binsum ((c+p+q) div 2, ps, qs);
+
+binsum (0, [1, 1, 0, 1], [0, 1, 1, 1, 1]);
+
+fun binprod ([], _) = []
+  | binprod (0::ps, qs) = 0::binprod (ps, qs)
+  | binprod (1::ps, qs) = binsum (0, qs, 0::binprod (ps, qs));
+
+binprod ([1, 1, 0, 1], [0, 1, 1, 1, 1]);
